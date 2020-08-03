@@ -22,6 +22,7 @@ class Board:
         self.winner = None
         self.printf = kwargs.get('printf', print)
         self.inputf = kwargs.get('inputf', input)
+        self.setboardf = kwargs.get('setboardf', print)
 
     def coords(self):
         '''Return list of piece coordinates.'''
