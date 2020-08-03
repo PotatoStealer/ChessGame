@@ -1,5 +1,7 @@
 from chess import Board, King, Queen, Bishop, Knight, Rook, Pawn
+from interface import ConsoleInterface
 
+ui = ConsoleInterface()
 game = Board(debug=False)
 game.start()
 while game.winner is None:
