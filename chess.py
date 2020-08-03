@@ -14,11 +14,13 @@ class Board:
     00  10  20  30  40  50  60  70
     '''
 
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, **kwargs):
         self.position = {}
         open('moves.txt','w')
         self.debug = debug
         self.winner = None
+        self.printf = kwargs.get('printf', print)
+        self.inputf = kwargs.get('inputf', input)
 
     def coords(self):
         '''Return list of piece coordinates.'''
@@ -69,7 +71,7 @@ class Board:
         piece = self.get_piece(start)
         self.remove(start)
         self.add(end, piece)
-        print(self.get_piece(end), f'{start[0]}{start[1]} -> {end[0]}{end[1]}')
+        self.printf( f'{self.get_piece(end)} {start[0]}{start[1]} -> {end[0]}{end[1]}')
 
     def start(self):
         '''Set up the pieces and start the game.'''
@@ -107,26 +109,35 @@ class Board:
         '''
         # helper function to generate symbols for piece
         # Row 7 is at the top, so print in reverse order
+        str = ''
         for row in range(8, -1, -1):
             for col in range(0,8):
                 if row == 8 and col == 0:
-                    print('  ', end = '')
+                    str += '  '
+                    # print('  ', end = '')
                 if row == 8:
-                    print(col,end = '')
+                    str += f'{col}'
+                    # print(col, end = '')
                 if col == 0 and row != 8:
-                    print(row, end = ' ')
+                    str += f'{row} '
+                    # print(row, end = ' ')
                 coord = (col, row)  # tuple
                 if coord in self.coords():
                     piece = self.get_piece(coord)
-                    print(f'{piece.symbol()}', end='')
+                    str += f'{piece.symbol()}'
+                    # print(f'{piece.symbol()}', end='')
                 else:
                     piece = None
-                    print(' ', end='')
+                    str += ' '
+                    # print(' ', end='')
                 if col == 7:     # Put line break at the end
-                    print('')
+                    str += '\n'
+                    # print('')
                 else:            # Print a space between pieces
                     if row != 8:
-                        print(' ', end='')
+                        str += ' '
+                        # print(' ', end='')
+        self.printf(str)
 
     def prompt(self):
         '''
@@ -164,10 +175,10 @@ class Board:
         while True:
             inputstr = input(f'{self.turn.title()} player: ')
             if not valid_format(inputstr):
-                print('Invalid input. Please enter your move in the '
+                self.printf('Invalid input. Please enter your move in the '
                       'following format: __ __, _ represents a digit.')
             elif not valid_num(inputstr):
-                print('Invalid input. Move digits should be 0-7.')
+                self.printf('Invalid input. Move digits should be 0-7.')
             else:
                 start, end = split_and_convert(inputstr)
                 if self.valid_move(start, end):
@@ -178,7 +189,7 @@ class Board:
                         f.write(f'{self.turn.title()}'.lower() + ' ' + left + ' --> ' + right + '\n')
                     return start, end
                 else:
-                    print(f'Invalid move for {self.get_piece(start)}.')
+                    self.printf(f'Invalid move for {self.get_piece(start)}.')
 
     def valid_move(self, start, end):
         '''
@@ -262,7 +273,7 @@ class Board:
         Prints debug messages.
         '''
         if self.debug:
-            print(message)
+            self.printf(message)
     
     def checkmate(self, end):
         '''
@@ -276,7 +287,7 @@ class Board:
         king_coord = self.find_piece('king', colour.lower())
         if not king_coord is None:
             if piece.isvalid(end, king_coord, None):
-                print(f"{colour} is checkmated!")
+                self.printf(f"{colour} is checkmated!")
 
 class BasePiece:
     name = 'piece'
