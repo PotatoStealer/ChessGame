@@ -138,7 +138,7 @@ class Board:
                     if row != 8:
                         str += ' '
                         # print(' ', end='')
-        self.printf(str)
+        self.setboardf(str)
 
     def prompt(self):
         '''
