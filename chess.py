@@ -174,7 +174,7 @@ class Board:
 
         self.log("== PROMPT ==")
         while True:
-            inputstr = input(f'{self.turn.title()} player: ')
+            inputstr = self.inputf(f'{self.turn.title()} player: ')
             if not valid_format(inputstr):
                 self.printf('Invalid input. Please enter your move in the '
                       'following format: __ __, _ represents a digit.')
