@@ -16,7 +16,8 @@ class Board:
 
     def __init__(self, debug=False, **kwargs):
         self.position = {}
-        open('moves.txt','w')
+        f = open('moves.txt','w')
+        f.close()
         self.debug = debug
         self.winner = None
         self.printf = kwargs.get('printf', print)
