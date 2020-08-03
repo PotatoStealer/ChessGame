@@ -1,10 +1,11 @@
 from chess import Board, King, Queen, Bishop, Knight, Rook, Pawn
-from interface import ConsoleInterface
+from interface import ConsoleInterface, TextInterface
 
-ui = ConsoleInterface()
+ui = TextInterface()
 game = Board(debug=False, 
             printf=ui.set_msg,
-            inputf=ui.get_player_input)
+            inputf=ui.get_player_input,
+            setboardf=ui.set_board)
 game.start()
 while game.winner is None:
     game.display()
