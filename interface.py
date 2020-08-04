@@ -27,9 +27,10 @@ class ConsoleInterface:
 class TextInterface:
     def __init__(self):
         stdscr = curses.initscr()
-        self.win1 = curses.newwin(10, 20, 0, 0)
-        self.win2 = curses.newwin(12, 20, 12, 0)
-        self.win3 = curses.newwin(2, 100, 10, 0)
+        col,row = stdscr.getmaxyx()
+        self.win1 = curses.newwin(10, 20, 0, row//2-6)
+        self.win2 = curses.newwin(12, 20, 12, row//2-6)
+        self.win3 = curses.newwin(2, 100, 10, row//2-30)
 
     def set_board(self, inputstr):
         """
