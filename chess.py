@@ -121,7 +121,7 @@ class Board:
                     str += f'{col}'
                     # print(col, end = '')
                 if col == 0 and row != 8:
-                    str += f'{row} '
+                    str += f' {row} '
                     # print(row, end = ' ')
                 coord = (col, row)  # tuple
                 if coord in self.coords():
